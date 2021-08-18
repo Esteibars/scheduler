@@ -25,16 +25,26 @@ describe User do
           user = User.new(email: 'uesteibar@gmail.com', password: 'Alenguapo', name: 'Unai', surname: 'Esteibar')
 
           expect(user).not_to be_valid
-          expect(user.errors.messages[:password]).to eq(['must have at least one uppercase letter, one lowercase letter and one number']) 
+          expect(user.errors.messages[:password]).to eq(['must have at least one uppercase letter, one lowercase letter and one number'])
         end
       end
 
       context 'when it doesn\'t have lowercase letters' do
-        it 'is not valid'
+        it 'is not valid' do
+          user = User.new(email: 'uesteibar@gmail.com', password: 'ALENGUAPO9', name: 'Unai', surname: 'Esteibar')
+
+          expect(user).not_to be_valid
+          expect(user.errors.messages[:password]).to eq(['must have at least one uppercase letter, one lowercase letter and one number'])
+        end
       end
 
       context 'when it doesn\'t have uppercase letters' do
-        it 'is not valid'
+        it 'is not valid' do
+          user = User.new(email: 'uesteibar@gmail.com', password: 'alenguapo9', name: 'Unai', surname: 'Esteibar')
+
+          expect(user).not_to be_valid
+          expect(user.errors.messages[:password]).to eq(['must have at least one uppercase letter, one lowercase letter and one number'])
+        end
       end
     end
   end
