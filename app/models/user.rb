@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
   validates :name, :surname, presence: true
@@ -10,8 +8,20 @@ class User < ApplicationRecord
   private
 
   def password_validation
-    if !password.match(/[A-Z]{1}/) || !password.match(/[a-z]{1}/) || !password.match(/[0-9]{1}/)
+    if !(has_uppercase?(password) && has_lowercase?(password) && has_number?(password))
       errors.add :password, 'must have at least one uppercase letter, one lowercase letter and one number'
     end
+  end
+
+  def has_uppercase?(password)
+    password.match(/[A-Z]{1}/)
+  end
+
+  def has_lowercase?(password)
+    password.match(/[a-z]{1}/)
+  end
+
+  def has_number?(password)
+    password.match(/[0-9]{1}/)
   end
 end
