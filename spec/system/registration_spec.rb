@@ -7,19 +7,19 @@ RSpec.describe 'User registration', type: :system do
 
   it 'creates and confirms a user' do
     visit new_user_registration_path
-
+    email = "alen@example.com"
     expect(ActionMailer::Base.deliveries.size).to eq(0)
 
-    sign_up
+    sign_up(email)
 
-    user = User.find_by(email: "alen@example.com")
+    user = User.find_by(email: email)
     expect(user).not_to be_nil
     expect(user).not_to be_confirmed
 
     expect(ActionMailer::Base.deliveries.size).to eq(1)
 
     confirmation_email = ActionMailer::Base.deliveries.last
-    expect(confirmation_email.to).to eq([ "alen@example.com" ])
+    expect(confirmation_email.to).to eq([ email ])
     expect(confirmation_email.subject).to eq("Confirmation instructions")
 
     confirm_email(confirmation_email)
@@ -28,8 +28,8 @@ RSpec.describe 'User registration', type: :system do
     expect(user).to be_confirmed
   end
 
-  def sign_up
-    fill_in "Email", with: "alen@example.com"
+  def sign_up(email)
+    fill_in "Email", with: email
     fill_in "Name", with: "Alen"
     fill_in "Surname", with: "Esteibar"
     fill_in "Password", with: "1234567890AlEn"
