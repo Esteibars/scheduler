@@ -20,11 +20,11 @@ class Devise::Registrations::RegistrationsController < DeviseController
       if resource.active_for_authentication?
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
-        redirect_to new_user_confirmation_path
+        # respond_with resource, location: after_sign_up_path_for(resource)
       else
         set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
         expire_data_after_sign_in!
-        redirect_to new_user_confirmation_path
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
       end
     else
       clean_up_passwords resource
@@ -102,6 +102,7 @@ class Devise::Registrations::RegistrationsController < DeviseController
   # RegistrationsController.
   def sign_up(resource_name, resource)
     sign_in(resource_name, resource)
+    redirect_to new_user_confirmation_path
   end
 
   # The path used after sign up. You need to overwrite this method
