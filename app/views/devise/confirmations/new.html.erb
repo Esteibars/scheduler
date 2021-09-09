@@ -6,7 +6,7 @@
 
     <p>Now please check your email and confirm your account within 24 hours.</p>
 
-    <h5>You haven't receive your confirmation email?</h5>
+    <h5>You haven't received your confirmation email?</h5>
 
     <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
