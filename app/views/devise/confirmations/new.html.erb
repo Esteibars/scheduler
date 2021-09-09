@@ -1,16 +1,25 @@
-<h2>Resend confirmation instructions</h2>
+<div class="centered">
+  <div class="form-container">
+    <div class="form-title">
+      <h3>Welcome <%= current_user.name %>! Your account was created.</h3>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <p>Now please check your email and confirm your account within 24 hours.</p>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+    <h5>You haven't received your confirmation email?</h5>
+
+    <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="field">
+        <%= f.email_field :email, autofocus: true, type: :hidden, value: current_user.email %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Resend confirmation instructions" %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Resend confirmation instructions" %>
-  </div>
-<% end %>
+</div>
 
 <%= render "devise/shared/links" %>

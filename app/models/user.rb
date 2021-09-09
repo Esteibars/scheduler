@@ -8,9 +8,9 @@ class User < ApplicationRecord
   private
 
   def password_validation
-    if !(has_uppercase?(password) && has_lowercase?(password) && has_number?(password))
-      errors.add :password, 'must have at least one uppercase letter, one lowercase letter and one number'
-    end
+    return if has_uppercase?(password) && has_lowercase?(password) && has_number?(password)
+
+    errors.add :password, 'must have at least one uppercase letter, one lowercase letter and one number'
   end
 
   def has_uppercase?(password)
